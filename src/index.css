@@ -1,24 +1,15 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-accent: #4a2c17;
-  --color-accent-light: #6b3a2a;
+  --color-accent: #2563eb;
+  --color-accent-light: #3b82f6;
   --color-marked: #e8d0b0;
   --color-marked-border: #b8935a;
   --color-bingo: #c8902a;
-  --color-surface: #fffcf5;
-  --color-bg: #f5ede0;
-  --font-display: 'Playfair Display', Georgia, serif;
-}
-
-@keyframes warm-pop {
-  0% { transform: scale(0.85); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes slide-down {
-  0% { transform: translateY(-100%); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
+  --color-warm-dark: #4a2c17;
+  --color-warm-mid: #7a5435;
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "Lora", Georgia, serif;
 }
 
 html,
@@ -71,4 +62,34 @@ body {
 @keyframes pulse-warm {
   0%, 100% { box-shadow: 0 8px 32px rgba(200, 144, 42, 0.4); }
   50%       { box-shadow: 0 8px 48px rgba(200, 144, 42, 0.7); }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes bounce-ready {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+@keyframes deal-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
