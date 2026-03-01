@@ -132,6 +132,7 @@ export function StartScreen({ onStart }: StartScreenProps) {
         >
           Start Game
         </button>
+        <p className="mt-4 text-[#b8935a] text-xs italic">Grab a cup and let&apos;s mingle ☕</p>
       </div>
 
     </div>
