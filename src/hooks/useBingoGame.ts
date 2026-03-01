@@ -20,6 +20,8 @@ export interface BingoGameActions {
   handleSquareClick: (squareId: number) => void;
   resetGame: () => void;
   dismissModal: () => void;
+  enterCardDeck: () => void;
+  exitCardDeck: () => void;
 }
 
 const STORAGE_KEY = 'bingo-game-state';
@@ -43,7 +45,7 @@ function validateStoredData(data: unknown): data is StoredGameData {
     return false;
   }
   
-  if (typeof obj.gameState !== 'string' || !['start', 'playing', 'bingo'].includes(obj.gameState)) {
+  if (typeof obj.gameState !== 'string' || !['start', 'playing', 'bingo', 'card-deck'].includes(obj.gameState)) {
     return false;
   }
   
@@ -197,6 +199,14 @@ export function useBingoGame(): BingoGameState & BingoGameActions {
     setShowBingoModal(false);
   }, []);
 
+  const enterCardDeck = useCallback(() => {
+    setGameState('card-deck');
+  }, []);
+
+  const exitCardDeck = useCallback(() => {
+    setGameState('start');
+  }, []);
+
   return {
     gameState,
     board,
@@ -207,5 +217,7 @@ export function useBingoGame(): BingoGameState & BingoGameActions {
     handleSquareClick,
     resetGame,
     dismissModal,
+    enterCardDeck,
+    exitCardDeck,
   };
 }

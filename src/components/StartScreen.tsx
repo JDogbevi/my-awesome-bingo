@@ -1,20 +1,9 @@
 interface StartScreenProps {
   onStart: () => void;
+  onCardDeck: () => void;
 }
 
-const features = [
-  { icon: '🤝', label: 'Find Your People', desc: 'Connect with teammates through fun personal questions.' },
-  { icon: '🏆', label: '5-in-a-Row Wins', desc: 'Mark squares as you make matches and race to bingo.' },
-  { icon: '📵', label: 'No App Needed', desc: 'Works right in your browser — no installs, no fuss.' },
-];
-
-const steps = [
-  { step: '1', text: 'Find people who match the questions' },
-  { step: '2', text: 'Tap a square when you find a match' },
-  { step: '3', text: 'Get 5 in a row to win!' },
-];
-
-export function StartScreen({ onStart }: StartScreenProps) {
+export function StartScreen({ onStart, onCardDeck }: StartScreenProps) {
   return (
     <div className="min-h-full bg-bg font-body overflow-y-auto">
 
@@ -131,6 +120,13 @@ export function StartScreen({ onStart }: StartScreenProps) {
           style={{ animation: 'pulse-warm 2.5s ease-in-out infinite' }}
         >
           Start Game
+        </button>
+
+        <button
+          onClick={onCardDeck}
+          className="w-full bg-surface text-[#4a2c17] font-display font-bold py-3.5 px-8 rounded-xl text-lg border-2 border-[#d4b896] shadow-[0_2px_8px_rgba(74,44,23,0.12)] active:bg-marked active:shadow-none active:scale-95 transition-all duration-150 flex items-center justify-center gap-2"
+        >
+          <span>🃏</span> Card Deck Shuffle
         </button>
         <p className="mt-4 text-[#b8935a] text-xs italic">Grab a cup and let&apos;s mingle ☕</p>
       </div>
