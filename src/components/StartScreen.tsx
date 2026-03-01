@@ -48,6 +48,7 @@ export function StartScreen({ onStart }: StartScreenProps) {
           </div>
           <span className="text-6xl leading-none">☕</span>
         </div>
+      </section>
 
         <h1
           className="font-display font-bold text-accent text-center tracking-tight leading-none"
