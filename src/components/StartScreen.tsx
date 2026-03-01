@@ -2,216 +2,139 @@ interface StartScreenProps {
   onStart: () => void;
 }
 
-interface MiniSquare {
-  text: string;
-  marked: boolean;
-  free?: boolean;
-}
-
-const MINI_BOARD: MiniSquare[] = [
-  { text: 'bikes to work', marked: false },
-  { text: 'has a pet', marked: true },
-  { text: 'speaks 2+ langs', marked: false },
-  { text: 'plays music', marked: true },
-  { text: 'loves cooking', marked: false },
-  { text: 'has a garden', marked: true },
-  { text: 'traveled to Asia', marked: false },
-  { text: 'left-handed', marked: false },
-  { text: 'does yoga', marked: true },
-  { text: 'hidden talent', marked: false },
-  { text: 'loves spicy food', marked: false },
-  { text: 'been on TV', marked: true },
-  { text: '⭐ FREE', marked: true, free: true },
-  { text: 'collects something', marked: false },
-  { text: 'read a book', marked: true },
-  { text: 'sign language', marked: false },
-  { text: 'ran a marathon', marked: false },
-  { text: 'met a celebrity', marked: true },
-  { text: 'been skydiving', marked: false },
-  { text: 'has a twin', marked: false },
-  { text: 'can juggle', marked: true },
-  { text: 'video games', marked: false },
-  { text: 'born abroad', marked: true },
-  { text: 'lived abroad', marked: false },
-  { text: 'prefers tea', marked: false },
+const features = [
+  { icon: '🤝', label: 'Find Your People', desc: 'Connect with teammates through fun personal questions.' },
+  { icon: '🏆', label: '5-in-a-Row Wins', desc: 'Mark squares as you make matches and race to bingo.' },
+  { icon: '📵', label: 'No App Needed', desc: 'Works right in your browser — no installs, no fuss.' },
 ];
 
-const STEPS = [
-  { icon: '🎯', text: 'Find people who match the squares' },
-  { icon: '👆', text: 'Tap a square when you spot a match' },
-  { icon: '🏆', text: 'Get 5 in a row to win!' },
+const steps = [
+  { step: '1', text: 'Find people who match the questions' },
+  { step: '2', text: 'Tap a square when you find a match' },
+  { step: '3', text: 'Get 5 in a row to win!' },
 ];
-
-const CARD_ROTATIONS = [1, -1, 0];
 
 export function StartScreen({ onStart }: StartScreenProps) {
   return (
-    <div
-      className="flex flex-col items-center min-h-full overflow-auto font-body"
-      style={{
-        background: 'linear-gradient(160deg, #fdf6ec 0%, #f5e8d0 60%, #ede0c8 100%)',
-      }}
-    >
-      {/* Section 1: Hero with mini bingo board preview */}
+    <div className="min-h-full bg-bg font-body overflow-y-auto">
+
+      {/* ── 1. HERO ── */}
       <section
-        className="w-full max-w-sm px-4 pt-10 pb-4 text-center"
+        className="relative flex flex-col items-center justify-center min-h-[45vh] px-6 py-14 overflow-hidden"
         style={{
-          animation: 'deal-in 0.5s ease-out both',
-          animationDelay: '0ms',
+          background:
+            'radial-gradient(ellipse at 65% 35%, color-mix(in srgb, var(--color-bingo) 32%, transparent) 0%, color-mix(in srgb, var(--color-marked-border) 14%, transparent) 45%, var(--color-bg) 78%)',
+          animation: 'fade-up 0.6s ease-out both',
         }}
       >
-        <h1
-          className="text-5xl font-bold mb-2 font-display text-warm-dark"
-          style={{
-            textShadow: '2px 2px 0 rgba(74,44,23,0.15)',
-          }}
-        >
-          Ready to Mingle?
-        </h1>
-        <p className="text-base mb-6 text-warm-mid">
-          Find your people, one square at a time.
-        </p>
-
-        {/* Decorative 5×5 bingo board preview */}
-        <div className="relative mx-auto inline-block">
+        {/* Coffee mug + steam */}
+        <div className="relative mb-5 select-none">
           <div
-            className="relative grid gap-1 p-2 rounded-xl overflow-hidden"
-            style={{
-              gridTemplateColumns: 'repeat(5, 2.5rem)',
-              background: 'rgba(200, 144, 42, 0.1)',
-              border: '1px solid rgba(200, 144, 42, 0.25)',
-              boxShadow: '0 4px 20px rgba(200, 144, 42, 0.15)',
-            }}
+            className="absolute bottom-full left-1/2 flex gap-[6px]"
+            style={{ transform: 'translateX(-50%)', paddingBottom: '4px' }}
           >
-            {/* Shimmer sweep overlay */}
             <div
-              aria-hidden="true"
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.45) 50%, transparent 100%)',
-                backgroundSize: '200% 100%',
-                animation: 'shimmer 2.5s linear infinite',
-                zIndex: 1,
-              }}
+              className="w-[3px] h-7 rounded-full bg-marked-border/60"
+              style={{ animation: 'steam 2s ease-out infinite', animationDelay: '0.7s' }}
             />
-            {MINI_BOARD.map((sq, i) => (
-              <div
-                key={i}
-                className="w-10 h-10 flex items-center justify-center rounded text-center leading-tight font-body"
-                style={{
-                  fontSize: '6.5px',
-                  backgroundColor: sq.marked
-                    ? 'var(--color-marked)'
-                    : 'rgba(255,255,255,0.8)',
-                  border: `1px solid ${
-                    sq.marked
-                      ? 'var(--color-marked-border)'
-                      : 'rgba(184, 147, 90, 0.25)'
-                  }`,
-                  color: sq.free
-                    ? 'var(--color-bingo)'
-                    : sq.marked
-                    ? 'var(--color-warm-dark)'
-                    : 'var(--color-warm-mid)',
-                  fontWeight: sq.free ? 700 : sq.marked ? 600 : 400,
-                  opacity: sq.marked || sq.free ? 1 : 0.75,
-                  padding: '2px',
-                  wordBreak: 'break-word',
-                  overflow: 'hidden',
-                  position: 'relative',
-                  zIndex: 0,
-                }}
-              >
-                {sq.text}
-              </div>
-            ))}
+            <div
+              className="w-[3px] h-6 rounded-full bg-marked-border/60"
+              style={{ animation: 'steam 2s ease-out infinite', animationDelay: '1.3s' }}
+            />
+            <div
+              className="w-[3px] h-7 rounded-full bg-marked-border/60"
+              style={{ animation: 'steam 2s ease-out infinite', animationDelay: '1.9s' }}
+            />
           </div>
+          <span className="text-6xl leading-none">☕</span>
         </div>
       </section>
 
-      {/* Section 2: How to Play — step cards */}
-      <section
-        className="w-full max-w-sm px-4 py-4"
-        style={{
-          animation: 'deal-in 0.5s ease-out both',
-          animationDelay: '150ms',
-        }}
-      >
-        <h2
-          className="text-2xl font-bold text-center mb-4 font-display text-warm-dark"
+        <h1
+          className="font-display font-bold text-accent text-center tracking-tight leading-none"
           style={{
-            textShadow: '2px 2px 0 rgba(74,44,23,0.15)',
+            fontSize: '5rem',
+            animation: 'fade-up 0.6s ease-out both',
+            animationDelay: '100ms',
           }}
         >
-          How to Play
-        </h2>
-        <div className="flex flex-col sm:flex-row gap-3">
-          {STEPS.map((step, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-xl p-4 flex-1"
-              style={{
-                border: '1px solid rgba(184, 147, 90, 0.3)',
-                transform: `rotate(${CARD_ROTATIONS[i]}deg)`,
-                boxShadow: '0 2px 8px rgba(200, 144, 42, 0.1)',
-              }}
-            >
-              <div
-                className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mb-2"
-                style={{
-                  backgroundColor: 'var(--color-bingo)',
-                  color: 'white',
-                }}
-              >
-                {i + 1}
-              </div>
-              <div className="text-2xl mb-1">{step.icon}</div>
-              <p className="text-xs text-warm-mid">{step.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Section 3: Social proof */}
-      <section
-        className="w-full max-w-sm px-4 py-2 text-center"
-        style={{
-          animation: 'deal-in 0.5s ease-out both',
-          animationDelay: '300ms',
-        }}
-      >
-        <p className="text-sm text-warm-mid">
-          ☕☕☕☕☕&nbsp;&nbsp;Trusted at 50+ events
+          Soc Ops
+        </h1>
+        <p
+          className="font-display italic text-bingo text-xl text-center mt-3 max-w-xs leading-snug"
+          style={{ animation: 'fade-up 0.6s ease-out both', animationDelay: '200ms' }}
+        >
+          The social bingo that gets people talking
         </p>
       </section>
 
-      {/* Section 4: CTA */}
-      <section
-        className="w-full max-w-sm px-4 pb-10 pt-3"
-        style={{
-          animation: 'deal-in 0.5s ease-out both',
-          animationDelay: '450ms',
-        }}
+      {/* ── 2. SOCIAL PROOF STRIP ── */}
+      <div
+        className="flex items-center gap-4 px-6 py-4"
+        style={{ animation: 'fade-up 0.6s ease-out both', animationDelay: '200ms' }}
+      >
+        <div className="flex-1 h-px bg-divider" />
+        <p className="italic text-bingo text-sm whitespace-nowrap">
+          ☕ Played at 50+ team events and counting
+        </p>
+        <div className="flex-1 h-px bg-divider" />
+      </div>
+
+      {/* ── 3. FEATURE CARDS ── */}
+      <div
+        className="flex gap-3 overflow-x-auto px-6 pb-4 snap-x"
+        style={{ animation: 'fade-up 0.6s ease-out both', animationDelay: '200ms' }}
+      >
+        {features.map(({ icon, label, desc }) => (
+          <div
+            key={label}
+            className="bg-surface border border-divider rounded-2xl p-4 min-w-[140px] snap-start flex-shrink-0"
+          >
+            <div className="text-3xl mb-2">{icon}</div>
+            <p className="font-semibold text-accent text-sm leading-tight mb-1">{label}</p>
+            <p className="text-xs text-accent/65 leading-snug">{desc}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* ── 4. HOW TO PLAY ── */}
+      <div
+        className="px-6 mt-1"
+        style={{ animation: 'fade-up 0.6s ease-out both', animationDelay: '300ms' }}
+      >
+        <div
+          className="bg-surface border border-divider rounded-2xl py-6 px-5"
+          style={{ borderLeftWidth: '4px', borderLeftColor: 'var(--color-bingo)' }}
+        >
+          <h2 className="font-display font-semibold text-accent text-lg mb-4">How to Play</h2>
+          <ol className="space-y-3">
+            {steps.map(({ step, text }) => (
+              <li key={step} className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-bingo text-surface text-xs font-bold flex items-center justify-center">
+                  {step}
+                </span>
+                <span className="text-sm pt-[1px] text-accent/80">{text}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      {/* ── 5. CTA ── */}
+      <div
+        className="px-6 pb-10 mt-6"
+        style={{ animation: 'fade-up 0.6s ease-out both', animationDelay: '400ms' }}
       >
         <button
           onClick={onStart}
-          className="w-full font-semibold py-4 px-8 rounded-xl text-lg font-display"
-          style={{
-            backgroundColor: 'var(--color-bingo)',
-            color: 'white',
-            animation: 'bounce-ready 2s ease-in-out infinite',
-            border: '2px solid rgba(74, 44, 23, 0.15)',
-            boxShadow: '0 4px 16px rgba(200, 144, 42, 0.35)',
-            textShadow: '1px 1px 0 rgba(74, 44, 23, 0.25)',
-          }}
+          className="w-full bg-accent text-bg font-display font-bold py-4 px-8 rounded-xl text-lg tracking-wide active:opacity-90 transition-opacity shadow-[0_8px_32px_rgba(200,144,42,0.4)]"
+          style={{ animation: 'pulse-warm 2.5s ease-in-out infinite' }}
         >
           Start Game
         </button>
-        <p className="text-center text-sm mt-3 text-warm-mid">
-          Grab a cup and let's mingle ☕
-        </p>
-      </section>
+        <p className="mt-4 text-[#b8935a] text-xs italic">Grab a cup and let&apos;s mingle ☕</p>
+      </div>
+
     </div>
   );
 }
